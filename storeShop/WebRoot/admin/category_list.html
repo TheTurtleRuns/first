@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Basic Window - jQuery EasyUI Demo</title>
+	</head>
+	<body>
+		<!-- 1.定义一个datagrid的元素节点 -->
+		<div id="allCategorys"></div>
+		
+		<!-- 2.定义一个toolbar的元素节点 -->
+		<div id="toolbar">
+			<a href="javascript:void(0);" onclick="addCategoryDialog()" data-options="iconCls:'icon-add',plain:true" class="easyui-linkbutton" /a>
+			<a href="javascript:void(0);" data-options="iconCls:'icon-remove',plain:true" class="easyui-linkbutton" /a>
+			<a href="javascript:void(0);" data-options="iconCls:'icon-edit',plain:true" class="easyui-linkbutton" /a>
+			<a href="javascript:void(0);" data-options="iconCls:'icon-help',plain:true" class="easyui-linkbutton" /a>
+		</div>
+	
+		<!-- 3.定义一个添加分类信息的对话框元素节点 -->
+		<div id="addCategoryDialog"></div>
+		
+		<!-- 4.定义一个修改分类信息的对话框元素节点 -->
+		<div id="editCategoryByCidDialog"></div>
+	
+		<!-- 数据表格组件 -->
+		<script type="text/javascript">
+			$(function(){
+				$('#allCategorys').datagrid({
+					//实际开发都是发送一个请求到Servlet去查询数据获得数据(EasyUI默认发送的是异步请求)
+				    //url:'datagrid_data.json',    
+				    url:'../AdminProductServlet?method=findAllCategory',
+				    columns:[[    
+				        {field:'cid',title:'分类ID',halign:'center',align:'center'},    
+				        {field:'cname',title:'分类名称',width:100,halign:'center',align:'center'},    
+				        {field:'option',title:'操作',width:100,halign:'center',align:'center',
+				        	//value:字段值(当前列所在行的值)
+				        	//row:行记录数据(当前整行的数据)
+				        	//index:行索引(当前这列数据所在行的索引值) 
+				        	formatter: function(value,row,index){
+				        		var temp = '<a href="javascript:void(0);" onclick="delCategoryByCid(\''+row.cid+'\')">删除</a>';
+				        		temp+='&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="editCategoryByCid(\''+row.cid+'\')">修改</a>';
+								return temp;
+							}
+				        }    
+				    ]],
+				    fit:true,
+				    toolbar:"#toolbar"
+				});  
+			});
+			
+			//添加分类信息的对话框
+			function addCategoryDialog(){
+				$('#addCategoryDialog').dialog({    
+				    title: '添加分类信息',    
+				    width: 400,    
+				    height: 200,    
+				    closed: false,    
+				    cache: false,    
+				    href: 'category_add.html',    
+				    modal: true   
+				}); 
+			}
+			
+			//删除分类信息
+			function delCategoryByCid(cid){
+				//alert(cid);
+				//删除确认框(第一个参数：标题；第二个参数：内容；第三个参数：函数<参数r:操作的结果【点击OK返回true，点击Cancel返回false】>)
+				$.messager.confirm('确认','您确认想要删除该分类信息吗？',function(r){    
+				    if (r){    
+				       	//指向一个Servlet来进行根据cid删除分类信息的操作(发送异步请求)
+				    	$.ajax({
+				    		type:'post',
+				    		url:'../AdminProductServlet',
+				    		data:{method:'delCategoryByCid',cid:cid},
+				    		success:function(data){
+				    			//判断
+				    			if(data=="yes"){
+				    				//弹出一个删除分类信息成功的消息框
+				    				$.messager.show({
+										title:'删除分类信息成功！',
+										msg:'消息将在2秒后关闭。',
+										timeout:2000,
+										showType:'slide'
+									});
+
+				    	        	//刷新数据表格
+				    	        	$("#allCategorys").datagrid("reload");
+				    			}
+				    		},
+				    		dataType:'text'
+				    	});
+				    }    
+				}); 
+			}
+			
+			//弹出一个修改分类信息的对话框
+			function editCategoryByCid(cid){
+				//cid：它是一个局部变量，必须赋值给一个全局的变量
+				gbCid = cid;
+				
+				$('#editCategoryByCidDialog').dialog({    
+				    title: '修改分类信息',    
+				    width: 400,    
+				    height: 200,    
+				    closed: false,    
+				    cache: false,    
+				    href: 'category_edit.html',    
+				    modal: true   
+				}); 
+			}
+			
+			
+		</script>
+	
+	</body>
+</html>

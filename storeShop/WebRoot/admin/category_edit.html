@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>修改分类信息</title>
+	</head>
+	<body>
+		<div style="padding:20px;text-align: center;">
+			<form id="editCategoryForm" action="../AdminProductServlet" method="post">
+				<input type="hidden" name="method" value="editCategoryByCid">
+				<!-- cid的值load方法返回json自动填充的 -->
+				<input type="hidden" name="cid">
+		    	<table cellpadding="15">
+		    		<tr>
+		    			<td>分类名称:</td>
+		    			<td><input class="easyui-textbox" type="text" name="cname"></input></td>
+		    		</tr>
+		    	</table>
+		    </form>
+		    <div style="text-align:center;padding:5px">
+		    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="editCategoryForm()">修改</a>
+		    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">取消</a>
+		    </div>
+	    </div>
+	    
+	    <!-- 页面加载，先查，让其回显数据 -->
+	    <script type="text/javascript">
+	    	$(function(){
+	    		//发送请求，查询数据，进行分类名称的回显
+	    		//EasyUI默认发送的是异步请求，表单组件的load方法会将服务器返回的数据进行自动填充
+	    		//(只要响应的json数据的key与表单name属性的值一致，那么就会将json数据key的值填充的到该name所在的元素节点的value属性中去)
+	    		$('#editCategoryForm').form('load','../AdminProductServlet?method=findCategoryByCid&cid='+gbCid);
+	    	});
+	    
+	    	//点击取消，关闭修改分类信息的对话框
+	    	function clearForm(){
+	    		$("#editCategoryByCidDialog").dialog("close");
+	    	}
+	    	
+	    	//点击修改，发送提交表单，去更新分类信息(条件：cid)
+	    	function editCategoryForm(){
+	    		$('#editCategoryForm').form('submit', {    
+	    			//响应成功的回调函数
+	    		    success:function(data){    
+	    		    	//判断
+	    		    	if(data=="yes"){
+	    		    		//关闭修改分类信息的对话框
+	    		    		$("#editCategoryByCidDialog").dialog("close");
+	    		    		
+	    		    		//弹出一个删除分类信息成功的消息框
+		    				$.messager.show({
+								title:'修改分类信息成功！',
+								msg:'消息将在2秒后关闭。',
+								timeout:2000,
+								showType:'slide'
+							});
+
+		    	        	//刷新数据表格
+		    	        	$("#allCategorys").datagrid("reload");
+	    		    	}
+	    		    }    
+	    		});  
+	    	}
+	    
+	    </script>
+	    
+	    
+	</body>
+</html>

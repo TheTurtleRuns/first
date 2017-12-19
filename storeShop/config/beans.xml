@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+   <bean id="IProductDao" class="cn.itcast.store.product.dao.impl.ProductDaoImpl"/>
+   <bean id="IUserDao" class="cn.itcast.store.user.dao.impl.UserDaoImpl"/>
+   <bean id="IOrderDao" class="cn.itcast.store.order.dao.impl.OrderDaoImpl"/>
+   <bean id="IAdminProductDao" class="cn.itcast.store.product.dao.impl.AdminProductDaoImpl"/>
+   <!-- <bean id="IOrderDao" class="cn.itcast.store.order.dao.impl.OrderDaoHibernateImpl"/> -->
+   
+   <bean id="IProductService" class="cn.itcast.store.product.service.impl.ProductServiceImpl"/>
+   <bean id="IUserService" class="cn.itcast.store.user.service.impl.UserServiceImpl"/>
+   <bean id="IOrderService" class="cn.itcast.store.order.service.impl.OrderServiceImpl"/>
+   <bean id="IAdminProductService" class="cn.itcast.store.product.service.impl.AdminProductServiceImpl"/>
+</beans>

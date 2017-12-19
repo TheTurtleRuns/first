@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>商品后台系统首页</title>
+		<link rel="stylesheet" type="text/css" href="../css/easyui.css">
+		<link rel="stylesheet" type="text/css" href="../css/icon.css">
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
+		<style type="text/css">
+			a{
+				text-decoration: none;
+			}
+		</style>
+		<script type="text/javascript">
+			//添加一个新的选项卡
+			function addTabs(title){
+				//判断指定的选项卡是否存在
+				var flag = $("#tabs").tabs("exists",title);
+				if(flag){
+					//说明指定的选项卡存在，直接返回
+					$("#tabs").tabs("select",title);
+				}else{
+					//说明指定的选项卡不存在，创建一个新的
+					$('#tabs').tabs('add',{    
+					    title:title, 
+					  	//远程加载一个url地址(只会加载文件里面body的内容)  
+					    href:'category_list.html', 
+					    closable:true   
+					});  
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<!-- 1.添加一个layout布局组件 -->
+		<div id="cc" class="easyui-layout" data-options="fit:true">   
+		    <div data-options="region:'north',title:'North Title',split:true" style="height:100px;">
+		    	<!-- 2.添加一个欢迎的标题 -->
+		    	<div style="color:blue;font-size: 33px;text-align: center;padding-top: 10px">
+		    		欢迎进入传智网上商城后台管理系统
+		    	</div>
+		    </div>   
+		    <div data-options="region:'south',title:'South Title',split:true" style="height:100px;text-align: center;">
+		    	<!-- 3.添加友情链接和版权信息 -->
+		    	<ul class="list-inline">
+					<a href="#"><li style="display: inline;">关于我们</li></a>
+					<a href="#"><li style="display: inline;">联系我们</li></a>
+					<a href="#"><li style="display: inline;">招贤纳士</li></a>
+					<a href="#"><li style="display: inline;">法律声明</li></a>
+					<a href="#"><li style="display: inline;">友情链接</li></a>
+					<a href="#"><li style="display: inline;">支付方式</li></a>
+					<a href="#"><li style="display: inline;">配送方式</li></a>
+					<a href="#"><li style="display: inline;">服务声明</li></a>
+					<a href="#"><li style="display: inline;">广告声明</li></a>
+				</ul>
+				<p>Copyright © 2005-2016 传智商城 版权所有 </p>
+		    </div>   
+		    <div data-options="region:'west',title:'West',split:true" style="width:200px;">
+		    	<!-- 4.添加一个accordion分类 -->
+		    	<div id="aa" class="easyui-accordion" data-options="fit:true,border:0">   
+				    <div title="菜单1" data-options="iconCls:'icon-save'" style="overflow:auto;padding:10px;">   
+				        content2    
+				    </div>   
+				    <div title="菜单2" data-options="iconCls:'icon-reload'" style="padding:10px;">   
+				        content2    
+				    </div>   
+				    <div title="菜单3" data-options="iconCls:'icon-man',selected:true">   
+				        <!-- 5.添加一个tree树型菜单 -->   
+				        <ul id="tree" class="easyui-tree">   
+				            <li>   
+				                <span>分类模块</span>   
+				                <ul>   
+				                    <li>   
+				                        <span><a href="javascript:void(0);"  onclick="addTabs('所有分类')">所有分类</a></span>   
+				                    </li>   
+				                    <li>   
+				                        <span><a href="javascript:void(0);">添加分类</a></span>   
+				                    </li>   
+				                    <li>   
+				                        <span><a href="javascript:void(0);">修改分类</a></span>   
+				                    </li>   
+				                    <li>   
+				                        <span><a href="javascript:void(0);">删除分类</a></span>   
+				                    </li>   
+				                </ul>   
+				            </li>   
+				            <li>   
+				                <span>商品模块</span>   
+				                <ul>   
+				                    <li>   
+				                        <span><a href="javascript:void(0);" onclick="addTabs('所有商品')">所有商品</a></span>   
+				                    </li>   
+				                    <li>   
+				                        <span><a href="javascript:void(0);">添加商品</a></span>   
+				                    </li>   
+				                    <li>   
+				                        <span><a href="javascript:void(0);">修改商品</a></span>   
+				                    </li>   
+				                    <li>   
+				                        <span><a href="javascript:void(0);">删除商品</a></span>   
+				                    </li>   
+				                </ul>   
+				            </li>   
+						</ul>  
+				    </div>   
+				</div>  
+		    </div>   
+		    <div data-options="region:'center',title:'center title'" style="padding:5px;background:#eee;">
+		    	<!-- 6.添加一个tabs选项卡 -->
+		    	<div id="tabs" class="easyui-tabs" data-options="fit:true,border:0">   
+				    <div title="欢迎页" style="padding:20px;">   
+				        <div style="font-size: 25px;color:red;text-align: center;">
+				        	在这里应该使用图标的方式显示整个商城系统的销售相关的数据
+				        </div>    
+				    </div>   
+				</div>  
+		    </div>   
+		</div>  
+		
+	</body>
+</html>
